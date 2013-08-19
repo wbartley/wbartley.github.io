@@ -39,7 +39,7 @@ A few code snippets to note from the fitbit/fitbit_server.js file:
 * Line 11 is the endpoint for getting profile data.
 * Lines 15 - 16 and 24 - 25 are changes to the original code to load the entire Fitbit user profile on account creation. I didn't have to do that, but I wanted to load my avatar picture and other details.
 
-```javascript fitbit_server.js https://github.com/wbartley/fitbit/blob/master/fitbit_server.js fitbit_server.js
+``` javascript fitbit_server.js https://github.com/wbartley/fitbit/blob/master/fitbit_server.js fitbit_server.js
 
 urls = {
 	requestToken: "https://api.fitbit.com/oauth/request_token",
@@ -75,7 +75,7 @@ Oauth.registerService('fitbit', 1, urls, function(oauthBinding) {
 It was also important to update the fitbit/fitbit_configure.html file with the information from Step 1 above:
 
 
-```html fitbit_configure.html https://github.com/wbartley/fitbit/blob/master/fitbit_configure.html fitbit_configure.html
+``` html fitbit_configure.html https://github.com/wbartley/fitbit/blob/master/fitbit_configure.html fitbit_configure.html
 <template name="configureLoginServiceDialogForFitbit">
   <p>
     First, you&#39;ll need to get a Fitbit Consumer Key. Follow these steps:
@@ -118,11 +118,8 @@ To test it out create a meteor app and add the packages. For example:
 	$ meteor add accounts-ui
 	$ mtr add accounts-fitbit
 
-Then open fitbit_test.html and replace
+Then open fitbit_test.html and replace **\{\{> hello}}** with **\{\{loginButtons}}** .
 
-```js
-{{> hello}} with {{loginButtons}}
-```
 Start Meteor and open [http://localhost:3000](http://localhost:3000):
 
 	$ meteor  
@@ -139,6 +136,8 @@ If you see your Fitbit login name and a "Sign Out" button - Success! If you want
 ```html
 <img src="{{currentUser.profile.avatar}}" class="img-rounded" style="width:50px" />
 ```
+
+with the **src="\{\{currentUser.profile.avatar}}"**.
 
 You should then see your avatar picture.
 
