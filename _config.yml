@@ -73,6 +73,10 @@ github_skip_forks: true
 twitter_user: wbartley
 twitter_tweet_button: true
 
+# Linkedin
+linkedin_user: wbartley
+
+
 # Google +1
 google_plus_one: false
 google_plus_one_size: medium
