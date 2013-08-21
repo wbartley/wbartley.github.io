@@ -8,7 +8,7 @@ categories: Meteor Fitbit JavaScript API Meteorite
 ---
 This is the second part of a two-part series walking thru the steps I took to create the Fitbit oAuth &amp; Meteor Account package and the Meteor-Fitbit-API Wrapper package. 
 
-Part one is [here](http://wbartley.github.io/blog/2013/08/19/meteor-and-fitbit-api/). To run the example in [Step 3](#step3) below you need to have a Fitbit account, create a Fitbit app and install Meteorite.
+Part one is [here](http://wbartley.github.io/blog/2013/08/19/meteor-and-fitbit-api/). To run the example in [Step 4](#step4) below you need to have a Fitbit account, create a Fitbit app and install Meteorite.
 
 <!-- more -->
 
@@ -54,14 +54,14 @@ Fitbit.prototype.getSteps = function() {
 };
 
 ```
-## <a name="step3"></a>Step 3: Meteorite and Atmosphere
+## Step 3: Meteorite and Atmosphere
 As in part one of this series, by following the directions [Building a smart package?](https://atmosphere.meteor.com/wtf/package) I created a smart.json file.
 
 To publish you run the command
 
 	$ mrt release [path]
 
-## Step 4: Go for a Spin
+## <a name="step3"></a>Step 4: Go for a Spin
 
 To test it out:
 	$ git clone https://github.com/wbartley/fitbit_test.git
