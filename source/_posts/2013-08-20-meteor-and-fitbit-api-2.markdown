@@ -3,7 +3,7 @@ layout: post
 title: "Meteor &amp; Fitbit API - Part Two"
 date: 2013-08-20 20:51
 comments: true
-published: false
+published: true
 categories: Meteor Fitbit JavaScript API Meteorite
 ---
 This is the second part of a two-part series walking thru the steps I took to create the Fitbit oAuth &amp; Meteor Account package and the Meteor-Fitbit-API Wrapper package. 
