@@ -61,7 +61,7 @@ To publish you run the command
 
 	$ mrt release [path]
 
-## <a name="step3"></a>Step 4: Go for a Spin
+## <a name="step4"></a>Step 4: Go for a Spin
 
 To test it out:
 	$ git clone https://github.com/wbartley/fitbit_test.git
