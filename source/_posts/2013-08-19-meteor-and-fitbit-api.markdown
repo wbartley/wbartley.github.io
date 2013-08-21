@@ -8,7 +8,9 @@ categories: Meteor Fitbit JavaScript API Meteorite
 ---
 After taking [Meteor](http://www.meteor.com/) for a spin **(AWESOME)** and having just recently bought a Fitbit Flex I wanted a way to get my Fitbit data into Meteor apps.
 
-In this two-part series I'll walk thru the steps I took to create the Fitbit oAuth &amp; Meteor Account package and then the Meteor-Fitbit-API Wrapper package. I'll also show how to use [Meteorite](http://oortcloud.github.io/meteorite/) to add and install smart packages from [Atmosphere](https://atmosphere.meteor.com/wtf/app). The hope is that others follow this approach and write additional API packages. 
+In this two-part series I'll walk thru the steps I took to create the Fitbit oAuth &amp; Meteor Account package and then the Meteor-Fitbit-API Wrapper package. I'll also show how to use [Meteorite](http://oortcloud.github.io/meteorite/) to add and install smart packages from [Atmosphere](https://atmosphere.meteor.com/wtf/app). The hope is that others follow this approach and port additional API packages. 
+
+<!-- more -->
 
 ## Step 1: Fitbit oAuth
 Sign up for an account and create an app at Fitbit. The callback URL needs to be:
@@ -98,11 +100,7 @@ It was also important to update the fitbit/fitbit_configure.html file with the i
 ## Step 3: Meteorite and Atmosphere
 To add and install smart packages from [Atmosphere](https://atmosphere.meteor.com/wtf/app) I needed to install  [Meteorite](http://oortcloud.github.io/meteorite/).
 
-A critical piece was making sure that the Meteor and Meteorite smart packages were setup correctly. Meteor uses packages.js and Meteorite uses smart.json. Following the directions [Building a smart package?](https://atmosphere.meteor.com/wtf/package) I created smart.json files.
-
-To publish you run the command
-
-	$ mrt release [path]
+A critical piece was making sure that the Meteor and Meteorite smart packages were setup correctly. Meteor uses packages.js and Meteorite uses smart.json.
 
 For me the [path] was the current package directory.
  
