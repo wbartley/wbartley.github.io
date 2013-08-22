@@ -1,0 +1,354 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Meteor &amp; Fitbit API - Part One - yeltrab</title>
+	<meta name="author" content="wbartley">
+
+	
+	<meta name="description" content="Meteor &amp; Fitbit API - Part One After taking Meteor for a spin (AWESOME) and having just recently bought a Fitbit Flex I wanted a way to get my &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="yeltrab" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://wbartley.github.io/blog/2013/08/19/meteor-and-fitbit-api/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	
+
+</div>
+<hgroup>
+  <h1><a href="/">yeltrab</a></h1>
+  
+    <h2>product|tech|life</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/wbartley" title="Twitter">Twitter</a>
+		
+		
+		
+		
+		
+		<a class="linkedin" href="http://www.linkedin.com/in/wbartley" title="LinkedIn">LinkedIn</a>
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Meteor &amp; Fitbit API - Part One</h1>
+	<div class="entry-content" itemprop="articleBody"><p>After taking <a href="http://www.meteor.com/">Meteor</a> for a spin <strong>(AWESOME)</strong> and having just recently bought a Fitbit Flex I wanted a way to get my Fitbit data into Meteor apps.</p>
+
+<p>In this two-part series I&rsquo;ll walk thru the steps I took to create the Fitbit oAuth &amp; Meteor Account package and then the Meteor-Fitbit-API Wrapper package. I&rsquo;ll also show how to use <a href="http://oortcloud.github.io/meteorite/">Meteorite</a> to add and install smart packages from <a href="https://atmosphere.meteor.com/wtf/app">Atmosphere</a>. The hope is that others follow this approach and port additional API packages.</p>
+
+<!-- more -->
+
+
+<h2>Step 1: Fitbit oAuth</h2>
+
+<p>Sign up for an account and create an app at Fitbit. The callback URL needs to be:</p>
+
+<pre><code>[your site url]/_oauth/fitbit?close 
+</code></pre>
+
+<p>It is ok to use localhost for your dev environment. For meteor apps the default port is 3000:</p>
+
+<pre><code>https://localhost:3000/_oauth/fitbit?close
+</code></pre>
+
+<p>Here&rsquo;s the <a href="https://wiki.fitbit.com/display/API/Fitbit+API">Fibit API documentation</a> for reference. Fitbit offers a <a href="https://wiki.fitbit.com/display/API/API+Explorer">Discover the Fitbit API</a> tool provided by Apigee (@apigee) that was a ton of help.</p>
+
+<h2>Step 2: Meteor Accounts &amp; oAuth</h2>
+
+<p>Meteor allows developers to quickly add log in functionality via Twitter, Github, etc. by running the commands:</p>
+
+<pre><code>$ meteor add accounts-twitter
+$ meteor add accounts-github
+</code></pre>
+
+<p>so I decided that was the only way to go.</p>
+
+<p>Because Fitbit uses oAuth1 I modified the <a href="https://github.com/meteor/meteor/tree/master/packages/accounts-twitter">Meteor Twitter Auth</a> and <a href="https://github.com/meteor/meteor/tree/master/packages/twitter">Meteor Twitter</a> packages. The end results are the <a href="https://github.com/wbartley/accounts-fitbit">Fitbit OAuth for Meteor</a> and <a href="https://github.com/wbartley/fitbit">Fitbit</a> packages.</p>
+
+<p>A few code snippets to note from the fitbit/fitbit_server.js file:</p>
+
+<ul>
+<li>Lines 2 &ndash; 5 are required URLs for request/access tokens and to authorize/authenticate.</li>
+<li>Line 11 is the endpoint for getting profile data.</li>
+<li>Lines 15 &ndash; 16 and 24 &ndash; 25 are changes to the original code to load the entire Fitbit user profile on account creation. I didn&rsquo;t have to do that, but I wanted to load my avatar picture and other details.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>fitbit_server.js</span><a href='https://github.com/wbartley/fitbit/blob/master/fitbit_server.js'>fitbit_server.js</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">urls</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">requestToken</span><span class="o">:</span> <span class="s2">&quot;https://api.fitbit.com/oauth/request_token&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">authorize</span><span class="o">:</span> <span class="s2">&quot;https://www.fitbit.com/oauth/authorize&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">accessToken</span><span class="o">:</span> <span class="s2">&quot;https://api.fitbit.com/oauth/access_token&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">authenticate</span><span class="o">:</span> <span class="s2">&quot;https://www.fitbit.com/oauth/authenticate&quot;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Oauth</span><span class="p">.</span><span class="nx">registerService</span><span class="p">(</span><span class="s1">&#39;fitbit&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">urls</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">oauthBinding</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">identity</span> <span class="o">=</span> <span class="nx">oauthBinding</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;https://api.fitbit.com/1/user/-/profile.json&#39;</span><span class="p">).</span><span class="nx">data</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">profile</span> <span class="o">=</span> <span class="nx">identity</span><span class="p">.</span><span class="nx">user</span><span class="p">;</span> <span class="c1">//add all fitbit profile data</span>
+</span><span class='line'>  <span class="nx">profile</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">identity</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">displayName</span><span class="p">;</span> <span class="c1">//add name to see in default login buttons</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// include helpful fields from Fitbit</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">fields</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">pick</span><span class="p">(</span><span class="nx">identity</span><span class="p">,</span> <span class="nx">Fitbit</span><span class="p">.</span><span class="nx">whitelistedFields</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">serviceData</span><span class="p">,</span> <span class="nx">fields</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">serviceData</span><span class="o">:</span> <span class="nx">serviceData</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">profile</span><span class="o">:</span> <span class="nx">profile</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It was also important to update the fitbit/fitbit_configure.html file with the information from Step 1 above:</p>
+
+<figure class='code'><figcaption><span>fitbit_configure.html</span><a href='https://github.com/wbartley/fitbit/blob/master/fitbit_configure.html'>fitbit_configure.html</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;template</span> <span class="na">name=</span><span class="s">&quot;configureLoginServiceDialogForFitbit&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>    First, you<span class="ni">&amp;#39;</span>ll need to get a Fitbit Consumer Key. Follow these steps:
+</span><span class='line'>  <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ol&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>
+</span><span class='line'>      Visit <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://dev.fitbit.com/apps/new&quot;</span> <span class="na">target=</span><span class="s">&quot;blank&quot;</span><span class="nt">&gt;</span>https://dev.fitbit.com/apps/new<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>
+</span><span class='line'>      Set Main URL to to: <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;url&quot;</span><span class="nt">&gt;</span><span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>
+</span><span class='line'>      Set Callback URL to: <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;url&quot;</span><span class="nt">&gt;</span>_oauth/fitbit?close<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/ol&gt;</span>
+</span><span class='line'><span class="nt">&lt;/template&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Step 3: Meteorite and Atmosphere</h2>
+
+<p>To add and install smart packages from <a href="https://atmosphere.meteor.com/wtf/app">Atmosphere</a> I needed to install  <a href="http://oortcloud.github.io/meteorite/">Meteorite</a>.</p>
+
+<p>A critical piece was making sure that the Meteor and Meteorite smart packages were setup correctly. Meteor uses packages.js and Meteorite uses smart.json.</p>
+
+<p>For me the [path] was the current package directory.</p>
+
+<p>Note: each time you publish you need to increment the smart.json version, add/commit to your git repo and then run the mrt release command.</p>
+
+<h2>Step 4: Go for a Spin</h2>
+
+<p>To test it out create a meteor app and add the packages. For example:</p>
+
+<pre><code>$ meteor create fitbit_test 
+$ cd fitbit_test
+$ meteor add accounts-ui
+$ mtr add accounts-fitbit
+</code></pre>
+
+<p>Then open fitbit_test.html and replace <strong>{{> hello}}</strong> with <strong>{{loginButtons}}</strong> .</p>
+
+<p>Start Meteor and open <a href="http://localhost:3000">http://localhost:3000</a>:</p>
+
+<pre><code>$ meteor  
+</code></pre>
+
+<p>Finally follow these steps:</p>
+
+<ol>
+<li>Click &ldquo;Configure Fitbit Login&rdquo;. Fill in the consumer_key and consumer_secret details from when you created your Fitbit app in Step 1.</li>
+<li>Click &ldquo;Save Configuration&rdquo;.</li>
+<li>Click &ldquo;Sign in with Fitbit&rdquo;.</li>
+<li>Enter your Fitbit account Email and Password and click &ldquo;Allow&rdquo;.</li>
+</ol>
+
+
+<p>If you see your Fitbit login name and a &ldquo;Sign Out&rdquo; button &ndash; Success! If you want to see your avatar picture (assuming you have one) then add the following to fitbit_test.html:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;&quot;</span> <span class="na">class=</span><span class="s">&quot;img-rounded&quot;</span> <span class="na">style=</span><span class="s">&quot;width:50px&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>with the <strong>src=&ldquo;{{currentUser.profile.avatar}}&rdquo;</strong>.</p>
+
+<p>You should then see your avatar picture.</p>
+
+<h2>Next Steps&hellip;</h2>
+
+<p>Now that you can login in and create an account with Fitbit, the next step is to get your activity data from the Fitbit API. That will be covered in part two of this series.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - wbartley -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'yeltrab';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wbartley.github.io/blog/2013/08/19/meteor-and-fitbit-api/';
+        var disqus_url = 'http://wbartley.github.io/blog/2013/08/19/meteor-and-fitbit-api/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-43397916-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

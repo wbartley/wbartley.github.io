@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: API | yeltrab]]></title>
+  <link href="http://wbartley.github.io/blog/categories/api/atom.xml" rel="self"/>
+  <link href="http://wbartley.github.io/"/>
+  <updated>2013-08-22T00:38:37-07:00</updated>
+  <id>http://wbartley.github.io/</id>
+  <author>
+    <name><![CDATA[wbartley]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Meteor &amp; Fitbit API - Part Two]]></title>
+    <link href="http://wbartley.github.io/blog/2013/08/20/meteor-and-fitbit-api-2/"/>
+    <updated>2013-08-20T20:51:00-07:00</updated>
+    <id>http://wbartley.github.io/blog/2013/08/20/meteor-and-fitbit-api-2</id>
+    <content type="html"><![CDATA[<p>This is the second part of a two-part series walking thru the steps I took to create the Fitbit oAuth &amp; Meteor Account package and the Meteor-Fitbit-API Wrapper package.</p>
+
+<p>Part one is <a href="http://wbartley.github.io/blog/2013/08/19/meteor-and-fitbit-api/">here</a>. To run the example in <a href="#step4">Step 4</a> below you need to have a Fitbit account, create a Fitbit app and install Meteorite.</p>
+
+<!-- more -->
+
+
+<h2>Step 1: Meteor Fitbit API</h2>
+
+<p>Having the ability to log in via Fitbit is great, but what about getting activity data from Fitbit? To do that I modified the <a href="https://github.com/Sewdn/meteor-twitter-api">Meteor&rsquo;s Twitter API</a> package.</p>
+
+<p>The end result is the <a href="https://github.com/wbartley/meteor-fitbit-api">Meteor Fitbit API Package</a>.</p>
+
+<p>There were a couple of critical adjustments that need to be made to the package.js file:</p>
+
+<ul>
+<li>Line 5 is necessary because Fitbit relies on oAuth1</li>
+<li>Line 7 is necessary to work with Meteor 0.6.5</li>
+</ul>
+
+
+<p>```js package.js <a href="https://github.com/wbartley/meteor-fitbit-api/blob/master/package.js">https://github.com/wbartley/meteor-fitbit-api/blob/master/package.js</a></p>
+
+<p>&hellip;</p>
+
+<p>Package.on_use(function (api, where) {</p>
+
+<pre><code>api.use('oauth1', ['client', 'server']);
+api.add_files(['lib/fitbit.js'], 'server');
+api.export &amp;&amp; api.export('Fitbit', 'server');
+</code></pre>
+
+<p>});</p>
+
+<p>&hellip;
+```</p>
+
+<p>Within lib/fitbit.js I added a couple of endpoints for testing:</p>
+
+<ul>
+<li>Line 3 userProfile is to get the user profile</li>
+<li>Line 7 getSteps is to get the last 7 days of steps</li>
+</ul>
+
+
+<p>```js fitbit.js <a href="https://github.com/wbartley/meteor-fitbit-api/blob/master/lib/fitbit.js">https://github.com/wbartley/meteor-fitbit-api/blob/master/lib/fitbit.js</a></p>
+
+<p>&hellip;</p>
+
+<p>Fitbit.prototype.userProfile = function() {
+  return this.get(&lsquo;user/&ndash;/profile.json&rsquo;);
+};</p>
+
+<p>Fitbit.prototype.getSteps = function() {</p>
+
+<pre><code>return this.get('user/-/activities/steps/date/today/7d.json');
+</code></pre>
+
+<p>};</p>
+
+<p>```</p>
+
+<h2>Step 3: Meteorite and Atmosphere</h2>
+
+<p>As in part one of this series, by following the directions <a href="https://atmosphere.meteor.com/wtf/package">Building a smart package?</a> I created a smart.json file.</p>
+
+<p>To publish you run the command</p>
+
+<pre><code>$ mrt release [path]
+</code></pre>
+
+<h2><a name="step4"></a>Step 4: Go for a Spin</h2>
+
+<p>To test it out:</p>
+
+<pre><code>$ git clone https://github.com/wbartley/fitbit_test.git
+$ cd fitbit_test
+$ meteor add bootstrap
+$ meteor add accounts-ui
+$ mrt add accounts-fitbit
+$ mrt add fitbit-api
+</code></pre>
+
+<p>Prior to starting meteor, open server/config.js and insert your service and consumerKey:</p>
+
+<p>```js config.js <a href="https://github.com/wbartley/fitbit_test/server/config.js">https://github.com/wbartley/fitbit_test/server/config.js</a></p>
+
+<p>Accounts.loginServiceConfiguration.insert({
+  service: &ldquo;fitbit&rdquo;,
+  consumerKey: &ldquo;your key&rdquo;,
+  secret: &ldquo;your secret&rdquo;
+});</p>
+
+<p>```</p>
+
+<p>Start meteor, open <a href="http://localhost:3000/">http://localhost:3000/</a> and follow these steps:</p>
+
+<ol>
+<li>Click &ldquo;Sign in with Fitbit&rdquo;.</li>
+<li>If necessary enter your Fitbit account Email and Password and click &ldquo;Allow&rdquo;.</li>
+<li>You should see your Fitbit login name, your full name, avatar picture (assuming you have one) and a &ldquo;Sign Out&rdquo; button.</li>
+<li>Click &ldquo;Get Steps&rdquo;.</li>
+</ol>
+
+
+<p>You should see a table with the last seven days of Fitbit step activities.</p>
+
+<h2>Next&hellip;</h2>
+
+<p>Now the fun begins. Explore the <a href="https://wiki.fitbit.com/display/API/API+Explorer">Discover the Fitbit API</a>  tool provided by Apigee (@apigee) and add some additional endpoints or follow this approach to port additional API packages and add them to <a href="https://atmosphere.meteor.com/wtf/app">Atmosphere</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Meteor &amp; Fitbit API - Part One]]></title>
+    <link href="http://wbartley.github.io/blog/2013/08/19/meteor-and-fitbit-api/"/>
+    <updated>2013-08-19T20:51:00-07:00</updated>
+    <id>http://wbartley.github.io/blog/2013/08/19/meteor-and-fitbit-api</id>
+    <content type="html"><![CDATA[<p>After taking <a href="http://www.meteor.com/">Meteor</a> for a spin <strong>(AWESOME)</strong> and having just recently bought a Fitbit Flex I wanted a way to get my Fitbit data into Meteor apps.</p>
+
+<p>In this two-part series I&rsquo;ll walk thru the steps I took to create the Fitbit oAuth &amp; Meteor Account package and then the Meteor-Fitbit-API Wrapper package. I&rsquo;ll also show how to use <a href="http://oortcloud.github.io/meteorite/">Meteorite</a> to add and install smart packages from <a href="https://atmosphere.meteor.com/wtf/app">Atmosphere</a>. The hope is that others follow this approach and port additional API packages.</p>
+
+<!-- more -->
+
+
+<h2>Step 1: Fitbit oAuth</h2>
+
+<p>Sign up for an account and create an app at Fitbit. The callback URL needs to be:</p>
+
+<pre><code>[your site url]/_oauth/fitbit?close 
+</code></pre>
+
+<p>It is ok to use localhost for your dev environment. For meteor apps the default port is 3000:</p>
+
+<pre><code>https://localhost:3000/_oauth/fitbit?close
+</code></pre>
+
+<p>Here&rsquo;s the <a href="https://wiki.fitbit.com/display/API/Fitbit+API">Fibit API documentation</a> for reference. Fitbit offers a <a href="https://wiki.fitbit.com/display/API/API+Explorer">Discover the Fitbit API</a> tool provided by Apigee (@apigee) that was a ton of help.</p>
+
+<h2>Step 2: Meteor Accounts &amp; oAuth</h2>
+
+<p>Meteor allows developers to quickly add log in functionality via Twitter, Github, etc. by running the commands:</p>
+
+<pre><code>$ meteor add accounts-twitter
+$ meteor add accounts-github
+</code></pre>
+
+<p>so I decided that was the only way to go.</p>
+
+<p>Because Fitbit uses oAuth1 I modified the <a href="https://github.com/meteor/meteor/tree/master/packages/accounts-twitter">Meteor Twitter Auth</a> and <a href="https://github.com/meteor/meteor/tree/master/packages/twitter">Meteor Twitter</a> packages. The end results are the <a href="https://github.com/wbartley/accounts-fitbit">Fitbit OAuth for Meteor</a> and <a href="https://github.com/wbartley/fitbit">Fitbit</a> packages.</p>
+
+<p>A few code snippets to note from the fitbit/fitbit_server.js file:</p>
+
+<ul>
+<li>Lines 2 &ndash; 5 are required URLs for request/access tokens and to authorize/authenticate.</li>
+<li>Line 11 is the endpoint for getting profile data.</li>
+<li>Lines 15 &ndash; 16 and 24 &ndash; 25 are changes to the original code to load the entire Fitbit user profile on account creation. I didn&rsquo;t have to do that, but I wanted to load my avatar picture and other details.</li>
+</ul>
+
+
+<p>``` javascript fitbit_server.js <a href="https://github.com/wbartley/fitbit/blob/master/fitbit_server.js">https://github.com/wbartley/fitbit/blob/master/fitbit_server.js</a> fitbit_server.js</p>
+
+<p>urls = {</p>
+
+<pre><code>requestToken: "https://api.fitbit.com/oauth/request_token",
+authorize: "https://www.fitbit.com/oauth/authorize",
+accessToken: "https://api.fitbit.com/oauth/access_token",
+authenticate: "https://www.fitbit.com/oauth/authenticate"
+</code></pre>
+
+<p>};</p>
+
+<p>&hellip;</p>
+
+<p>Oauth.registerService(&lsquo;fitbit&rsquo;, 1, urls, function(oauthBinding) {
+  var identity = oauthBinding.get(&lsquo;<a href="https://api.fitbit.com/1/user/-/profile.json">https://api.fitbit.com/1/user/-/profile.json</a>&rsquo;).data;</p>
+
+<p>&hellip;</p>
+
+<pre><code>var profile = identity.user; //add all fitbit profile data
+profile["name"] = identity.user.displayName; //add name to see in default login buttons
+</code></pre>
+
+<p>  // include helpful fields from Fitbit
+  var fields = <em>.pick(identity, Fitbit.whitelistedFields);
+  </em>.extend(serviceData, fields);</p>
+
+<p>  return {</p>
+
+<pre><code>serviceData: serviceData,
+options: {
+    profile: profile
+}
+</code></pre>
+
+<p>  };
+});
+```</p>
+
+<p>It was also important to update the fitbit/fitbit_configure.html file with the information from Step 1 above:</p>
+
+<p>``` html fitbit_configure.html <a href="https://github.com/wbartley/fitbit/blob/master/fitbit_configure.html">https://github.com/wbartley/fitbit/blob/master/fitbit_configure.html</a> fitbit_configure.html
+<template name="configureLoginServiceDialogForFitbit">
+  <p></p>
+
+<pre><code>First, you&amp;#39;ll need to get a Fitbit Consumer Key. Follow these steps:
+</code></pre>
+
+<p>  </p>
+  <ol></p>
+
+<pre><code>&lt;li&gt;
+  Visit &lt;a href="https://dev.fitbit.com/apps/new" target="blank"&gt;https://dev.fitbit.com/apps/new&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;
+  Set Main URL to to: &lt;span class="url"&gt;&lt;/span&gt;
+&lt;/li&gt;
+&lt;li&gt;
+  Set Callback URL to: &lt;span class="url"&gt;_oauth/fitbit?close&lt;/span&gt;
+&lt;/li&gt;
+</code></pre>
+
+<p>  </ol>
+</template></p>
+
+<p>```</p>
+
+<h2>Step 3: Meteorite and Atmosphere</h2>
+
+<p>To add and install smart packages from <a href="https://atmosphere.meteor.com/wtf/app">Atmosphere</a> I needed to install  <a href="http://oortcloud.github.io/meteorite/">Meteorite</a>.</p>
+
+<p>A critical piece was making sure that the Meteor and Meteorite smart packages were setup correctly. Meteor uses packages.js and Meteorite uses smart.json.</p>
+
+<p>For me the [path] was the current package directory.</p>
+
+<p>Note: each time you publish you need to increment the smart.json version, add/commit to your git repo and then run the mrt release command.</p>
+
+<h2>Step 4: Go for a Spin</h2>
+
+<p>To test it out create a meteor app and add the packages. For example:</p>
+
+<pre><code>$ meteor create fitbit_test 
+$ cd fitbit_test
+$ meteor add accounts-ui
+$ mtr add accounts-fitbit
+</code></pre>
+
+<p>Then open fitbit_test.html and replace <strong></strong> with <strong></strong> .</p>
+
+<p>Start Meteor and open <a href="http://localhost:3000">http://localhost:3000</a>:</p>
+
+<pre><code>$ meteor  
+</code></pre>
+
+<p>Finally follow these steps:</p>
+
+<ol>
+<li>Click &ldquo;Configure Fitbit Login&rdquo;. Fill in the consumer_key and consumer_secret details from when you created your Fitbit app in Step 1.</li>
+<li>Click &ldquo;Save Configuration&rdquo;.</li>
+<li>Click &ldquo;Sign in with Fitbit&rdquo;.</li>
+<li>Enter your Fitbit account Email and Password and click &ldquo;Allow&rdquo;.</li>
+</ol>
+
+
+<p>If you see your Fitbit login name and a &ldquo;Sign Out&rdquo; button &ndash; Success! If you want to see your avatar picture (assuming you have one) then add the following to fitbit_test.html:</p>
+
+<p><code>html
+&lt;img src="" class="img-rounded" style="width:50px" /&gt;
+</code></p>
+
+<p>with the <strong>src=&ldquo;&rdquo;</strong>.</p>
+
+<p>You should then see your avatar picture.</p>
+
+<h2>Next Steps&hellip;</h2>
+
+<p>Now that you can login in and create an account with Fitbit, the next step is to get your activity data from the Fitbit API. That will be covered in part two of this series.</p>
+]]></content>
+  </entry>
+  
+</feed>
