@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Meteor | yeltrab]]></title>
   <link href="http://wbartley.github.io/blog/categories/meteor/atom.xml" rel="self"/>
   <link href="http://wbartley.github.io/"/>
-  <updated>2013-08-22T12:26:23-07:00</updated>
+  <updated>2013-08-22T23:49:22-07:00</updated>
   <id>http://wbartley.github.io/</id>
   <author>
     <name><![CDATA[wbartley]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Meteor &amp; Handlebars Template Helpers]]></title>
+    <link href="http://wbartley.github.io/blog/2013/08/22/meteor-and-handlebars-template-helpers/"/>
+    <updated>2013-08-22T18:34:00-07:00</updated>
+    <id>http://wbartley.github.io/blog/2013/08/22/meteor-and-handlebars-template-helpers</id>
+    <content type="html"><![CDATA[<p>OK &ndash; I don&rsquo;t know if it was the Octopress theme I chose or what, but it was driving me crazy to be show Meteor Handlebars code snippets.</p>
+
+<p>Finally I found the solution at <a href="http://stackoverflow.com/questions/15786144/how-to-escape-in-markdown-on-octopress">How to escape { in markdown on Octopress?</a>.</p>
+
+<p>On to template helpers&hellip;</p>
+
+<p>Let&rsquo;s say you only want to show a table of steps per day if you have logged any steps. In Meteor to do handlebars conditionals you use template helpers.</p>
+
+<p>First create the template helper:</p>
+
+<ul>
+<li>Line 1: <code>steps</code> references the name of the template; <code>hasSteps</code> is the helper.</li>
+</ul>
+
+
+<p>``` js
+Template.steps.hasSteps = function(options) {
+  return ActivitiesSteps.find().count() > 0;
+};</p>
+
+<p>```</p>
+
+<p>Then in the template put the conditional as in line 2 below:</p>
+
+<p>
+``` html</p>
+
+<p><template name="steps"></p>
+
+<pre><code>{{#if hasSteps}}
+    {{&gt;activitiesStepsTable}}
+{{/if}}
+</code></pre>
+
+<p></template></p>
+
+<p>```
+</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Meteor &amp; Fitbit API - Part Two]]></title>
