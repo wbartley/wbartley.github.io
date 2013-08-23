@@ -419,3 +419,22 @@ task :new_draft, :title do |t, args|
     post.puts "---"
   end
 end
+
+
+# rake watch _drafts folder
+desc "Watch the draft and regenerate when it changes"
+task :watch_draft do
+  raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?("source/#{drafts_dir}")
+  puts "Starting to watch _drafts with Jekyll and Compass."
+  system "compass compile --css-dir #{drafts_dir}/stylesheets" unless File.exist?("#{drafts_dir}/stylesheets/screen.css")
+  jekyllPid = Process.spawn({"OCTOPRESS_ENV"=>"preview"}, "jekyll --auto")
+  compassPid = Process.spawn("compass watch")
+
+  trap("INT") {
+    [jekyllPid, compassPid].each { |pid| Process.kill(9, pid) rescue Errno::ESRCH }
+    exit 0
+  }
+
+  [jekyllPid, compassPid].each { |pid| Process.wait(pid) }
+end
+
