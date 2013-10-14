@@ -6,7 +6,7 @@ comments:
 published: true 
 categories: Meteor Handlebars
 ---
-OK - I don't know if it was the Octopress theme I chose or what, but it was driving me crazy to be show Meteor Handlebars code snippets.
+OK - I don't know if it was the Octopress theme I chose or what, but it was driving me crazy to show Meteor Handlebars code snippets.
 
 Finally I found the solution at [How to escape { in markdown on Octopress?](http://stackoverflow.com/questions/15786144/how-to-escape-in-markdown-on-octopress). 
 
