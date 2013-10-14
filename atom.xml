@@ -4,7 +4,7 @@
   <title><![CDATA[yeltrab]]></title>
   <link href="http://wbartley.github.io/atom.xml" rel="self"/>
   <link href="http://wbartley.github.io/"/>
-  <updated>2013-08-23T07:58:40-07:00</updated>
+  <updated>2013-10-14T16:00:15-07:00</updated>
   <id>http://wbartley.github.io/</id>
   <author>
     <name><![CDATA[wbartley]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Permission Slip]]></title>
+    <link href="http://wbartley.github.io/blog/2013/08/23/meteor-permission-slip/"/>
+    <updated>2013-08-23T08:30:00-07:00</updated>
+    <id>http://wbartley.github.io/blog/2013/08/23/meteor-permission-slip</id>
+    <content type="html"><![CDATA[<p>How the app works:</p>
+
+<p>Admin
+1. Create a slip
+2. Email parents link to slip</p>
+
+<p>Parents
+1. Parent gets email
+2. Clicks link
+3. Fills in details
+4. Clicks yes or no</p>
+
+<p>Took the parties example and modified it, plus added routing, tokens and &ldquo;guest account.&rdquo;</p>
+
+<p>/slip/token</p>
+
+<p>Token unique for each email address and slip. Will re-direct to the correct slip.</p>
+
+<p><a href="https://graph.facebook.com/526708814070558/members?access_token=CAAAAAITEghMBAFSYaH1RSae4lht0elvR4MPVmwGhpp81bQxGMtFpEVit5YmkMAkL4TD3dZBjNMWRQxaxKKZC2J1gvfH5gyd2MZCahAna3XEvpND2kxt3t49ZCXkP2FMy1fHh8ksCqWESPip9KydHvx6Wgn4wZBcQZD">https://graph.facebook.com/526708814070558/members?access_token=CAAAAAITEghMBAFSYaH1RSae4lht0elvR4MPVmwGhpp81bQxGMtFpEVit5YmkMAkL4TD3dZBjNMWRQxaxKKZC2J1gvfH5gyd2MZCahAna3XEvpND2kxt3t49ZCXkP2FMy1fHh8ksCqWESPip9KydHvx6Wgn4wZBcQZD</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Meteor &amp; Handlebars Template Helpers]]></title>
