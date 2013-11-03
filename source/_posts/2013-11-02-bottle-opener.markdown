@@ -7,7 +7,7 @@ published: true
 tags: design
 ---
 
-To kickoff my posts around good or bad design I thought I would start with a simple, yet amazing bottle opener by [Brendan Ravenhill](http://www.brendanravenhill.com/bottle-opener/).
+To kickoff my posts around design (good or bad), I thought I would start with a simple, yet amazing bottle opener by [Brendan Ravenhill](http://www.brendanravenhill.com/bottle-opener/).
 
 As he describes it, "A simple tool of great utility. One magnet captures the bottle cap; one holds opener to the fridge."
 
