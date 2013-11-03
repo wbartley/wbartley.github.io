@@ -15,7 +15,7 @@ See it in action:
  
 {% youtube 7sqhcfncoOU %}
 
-Trust me, you want of these especially at your next party. 
+Trust me, you want one of these especially at your next party. 
 
 Or if you are feeling handy you can always make your own:
 [How to Make a Handsome and Handy Wooden Bottle Opener](http://www.artofmanliness.com/2012/09/20/how-to-make-a-handsome-and-handy-wooden-bottle-opener/)
