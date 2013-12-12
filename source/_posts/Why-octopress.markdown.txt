@@ -1,11 +1,14 @@
 ---
 layout: post
 title: "Why Octopress"
-date: 2013-08-23 08:30
+date: 2013-11-06 08:30
 comments: true
 post: false
 categories: 
 ---
+So why Octopress?
+
+When looking at various blogging tools, I wanted to go with something that 
 
 
 
