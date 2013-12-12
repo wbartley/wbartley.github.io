@@ -6,8 +6,6 @@ comments: true
 published: true
 tags: 
 ---
-Be...
----
 A colleague of mine walks all new team members through these expectations: 
 
 	Be...
