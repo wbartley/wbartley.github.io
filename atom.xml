@@ -4,7 +4,7 @@
   <title><![CDATA[yeltrab]]></title>
   <link href="http://wbartley.github.io/atom.xml" rel="self"/>
   <link href="http://wbartley.github.io/"/>
-  <updated>2013-12-11T16:48:49-08:00</updated>
+  <updated>2013-12-11T16:49:47-08:00</updated>
   <id>http://wbartley.github.io/</id>
   <author>
     <name><![CDATA[wbartley]]></name>
@@ -18,9 +18,7 @@
     <link href="http://wbartley.github.io/blog/2013/11/02/team/"/>
     <updated>2013-11-02T16:12:00-07:00</updated>
     <id>http://wbartley.github.io/blog/2013/11/02/team</id>
-    <content type="html"><![CDATA[<h2>Be&hellip;</h2>
-
-<p>A colleague of mine walks all new team members through these expectations:</p>
+    <content type="html"><![CDATA[<p>A colleague of mine walks all new team members through these expectations:</p>
 
 <pre><code>Be...
     Positive
