@@ -65,7 +65,7 @@ To publish you run the command
 
 To test it out:
 	$ git clone https://github.com/wbartley/fitbitSteps.git
-	$ cd fitbit_test
+	$ cd fitbitSteps
 	$ meteor add bootstrap
 	$ meteor add accounts-ui
 	$ mrt add accounts-fitbit
