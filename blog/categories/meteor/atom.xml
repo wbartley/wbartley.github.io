@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Meteor | yeltrab]]></title>
   <link href="http://wbartley.github.io/blog/categories/meteor/atom.xml" rel="self"/>
   <link href="http://wbartley.github.io/"/>
-  <updated>2013-12-11T16:50:38-08:00</updated>
+  <updated>2014-02-22T10:33:43-08:00</updated>
   <id>http://wbartley.github.io/</id>
   <author>
     <name><![CDATA[wbartley]]></name>
@@ -81,7 +81,7 @@ Template.steps.hasSteps = function(options) {
 
 <ul>
 <li>Line 5 is necessary because Fitbit relies on oAuth1</li>
-<li>Line 7 is necessary to work with Meteor 0.6.5</li>
+<li>Line 7 is necessary to work with Meteor 0.6.5 and later</li>
 </ul>
 
 
@@ -139,7 +139,7 @@ api.export &amp;&amp; api.export('Fitbit', 'server');
 
 <p>To test it out:</p>
 
-<pre><code>$ git clone https://github.com/wbartley/fitbit_test.git
+<pre><code>$ git clone https://github.com/wbartley/fitbitSteps.git
 $ cd fitbit_test
 $ meteor add bootstrap
 $ meteor add accounts-ui
@@ -308,7 +308,7 @@ options: {
 <pre><code>$ meteor create fitbit_test 
 $ cd fitbit_test
 $ meteor add accounts-ui
-$ mtr add accounts-fitbit
+$ mrt add accounts-fitbit
 </code></pre>
 
 <p>Then open fitbit_test.html and replace <strong></strong> with <strong></strong> .</p>
