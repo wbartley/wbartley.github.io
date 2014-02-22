@@ -114,7 +114,7 @@ To test it out create a meteor app and add the packages. For example:
 	$ meteor create fitbit_test 
 	$ cd fitbit_test
 	$ meteor add accounts-ui
-	$ mtr add accounts-fitbit
+	$ mrt add accounts-fitbit
 
 Then open fitbit_test.html and replace **\{\{> hello}}** with **\{\{loginButtons}}** .
 

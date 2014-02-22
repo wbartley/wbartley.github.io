@@ -20,7 +20,7 @@ The end result is the [Meteor Fitbit API Package](https://github.com/wbartley/me
 There were a couple of critical adjustments that need to be made to the package.js file:
  
 * Line 5 is necessary because Fitbit relies on oAuth1
-* Line 7 is necessary to work with Meteor 0.6.5 
+* Line 7 is necessary to work with Meteor 0.6.5 and later 
 
 ```js package.js https://github.com/wbartley/meteor-fitbit-api/blob/master/package.js 
 
@@ -64,7 +64,7 @@ To publish you run the command
 ## <a name="step4"></a>Step 4: Go for a Spin
 
 To test it out:
-	$ git clone https://github.com/wbartley/fitbit_test.git
+	$ git clone https://github.com/wbartley/fitbitSteps.git
 	$ cd fitbit_test
 	$ meteor add bootstrap
 	$ meteor add accounts-ui
