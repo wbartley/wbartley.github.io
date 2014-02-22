@@ -4,7 +4,7 @@
   <title><![CDATA[yeltrab]]></title>
   <link href="http://wbartley.github.io/atom.xml" rel="self"/>
   <link href="http://wbartley.github.io/"/>
-  <updated>2014-02-22T10:33:43-08:00</updated>
+  <updated>2014-02-22T10:48:59-08:00</updated>
   <id>http://wbartley.github.io/</id>
   <author>
     <name><![CDATA[wbartley]]></name>
@@ -195,7 +195,7 @@
 <p>To test it out:</p>
 
 <pre><code>$ git clone https://github.com/wbartley/fitbitSteps.git
-$ cd fitbit_test
+$ cd fitbitSteps
 $ meteor add bootstrap
 $ meteor add accounts-ui
 $ mrt add accounts-fitbit
